@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get("/ranking", async (req, res) => {
   try {
-    return res.status(200).send(await serviceSummoner.getRanking('kill'));
+    return res.status(200).send(await serviceSummoner.getRanking(req.params.order));
   } catch (e) {
     console.log('>>> e',e);
     if (e.error) {

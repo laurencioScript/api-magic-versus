@@ -13,45 +13,53 @@ exports.getSummoner = async (summonerId) => {
 };
 
 exports.getRanking = async (param = 'wins') => {
-  let dataSummoners = await dalSummoner.getSummoners();
+  const dataSummoners = await countMatch();
   order = param;
-  dataSummoners = await countMatch(dataSummoners);
 
   const summoners = [];
-  for (const summoner of dataSummoners) {
-    const summonerData = await serviceApi.getSummonerByName(
-      summoner.summonerName
-    );  
+  let promises = [];
 
+  for (const summoner of dataSummoners) {
+    promises.push(serviceApi.getSummonerByName(summoner.summonerName));
+  }
+  
+  promises = await Promise.all(promises);
+  
+  for (const summoner of dataSummoners) {
+    const summonerData = promises.find(e => e.accountId == summoner.accountId )
+    
     summoners.push({
       ...summoner,
       profileIconId: summonerData.profileIconId,
       summonerLevel: summonerData.summonerLevel,
     });
   }
-
-
+  
   summoners.sort(orderBy)
 
   return summoners;
 };
 
-async function countMatch(summoners){
-  const matchs = await serviceMatch.getMatch();
+async function countMatch(){
+  const promises = await Promise.all([dalSummoner.getSummoners(), serviceMatch.getMatch()])
+  const summoners =  promises[0];
+  const matchs =  promises[1];
 
   for (const match of matchs) {
     for (const summoner of summoners) {
       const summonerExist = match.summoners.find(summonerMatch => summonerMatch.summonerId == summoner.id);
-      summoner.wins = summoner.wins ? summoner.wins : 0;
-      summoner.lose = summoner.lose ? summoner.lose : 0;
-      summoner.kill = summoner.kill ? summoner.kill : 0;
-      summoner.death = summoner.death ? summoner.death : 0;
-      summoner.assist = summoner.assist ? summoner.assist : 0;
-      summoner.wins += summonerExist.wins && summonerExist.wins == 'true'  ? 1 : 0;
-      summoner.lose += summonerExist.wins && summonerExist.wins == 'true'  ? 0 : 1;
-      summoner.kill += +summonerExist.kill;
-      summoner.death += +summonerExist.death;
-      summoner.assist += +summonerExist.assist;
+      if(summonerExist){
+        summoner.wins = summoner.wins ? summoner.wins : 0;
+        summoner.lose = summoner.lose ? summoner.lose : 0;
+        summoner.kill = summoner.kill ? summoner.kill : 0;
+        summoner.death = summoner.death ? summoner.death : 0;
+        summoner.assist = summoner.assist ? summoner.assist : 0;
+        summoner.wins += summonerExist.wins && summonerExist.wins == 'true'  ? 1 : 0;
+        summoner.lose += summonerExist.wins && summonerExist.wins == 'true'  ? 0 : 1;
+        summoner.kill += +summonerExist.kill;
+        summoner.death += +summonerExist.death;
+        summoner.assist += +summonerExist.assist;
+      }
 
 
     }
