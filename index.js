@@ -11,6 +11,6 @@ require("./src/match.api")(app);
 require("./src/summoner.api")(app);
 require("./src/champion.api")(app);
 
-app.listen(3000, function () {
+app.listen(process.env.PORT || 3000, function () {
   console.log("App listening on port 3000!");
 });
