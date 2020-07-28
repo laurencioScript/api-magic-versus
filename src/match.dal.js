@@ -6,9 +6,9 @@ exports.createMatch = async (match) => {
   try {
     const dataQuery = await client.query(
       `INSERT INTO match(
-      summoners, observation)
-      VALUES ($1, $2) returning *;`,
-      [JSON.stringify(match.summoners), match.observation]
+      summoners, observation, create_at)
+      VALUES ($1, $2, $3) returning *;`,
+      [JSON.stringify(match.summoners), match.observation, new Date()]
     );
 
     return camelcaseKeys(dataQuery.rows[0]);
@@ -23,7 +23,7 @@ exports.getMatch = async () => {
   const client = connect();
   try {
     const dataQuery = await client.query(
-      `select * from match order by create_at desc`
+      `select * from match order by create_at ASC`
     );
 
     return camelcaseKeys(dataQuery.rows);

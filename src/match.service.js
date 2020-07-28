@@ -38,6 +38,7 @@ exports.getMatch = async () => {
     const refactorMatch = {
       summoners: [],
       observation: match.observation,
+      createAt: match.createAt,
     };
     for (const summonerData of match.summoners) {
       const champion = await serviceApi.getChampion(

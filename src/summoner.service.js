@@ -60,6 +60,13 @@ async function countMatch(){
         summoner.death += +summonerExist.death;
         summoner.assist += +summonerExist.assist;
       }
+      else{
+        summoner.wins = 0;
+        summoner.lose = 0;
+        summoner.kill = 0;
+        summoner.death = 0;
+        summoner.assist = 0;
+      }
 
 
     }
