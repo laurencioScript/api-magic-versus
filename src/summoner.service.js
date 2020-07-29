@@ -44,7 +44,8 @@ async function countMatch(){
   const promises = await Promise.all([dalSummoner.getSummoners(), serviceMatch.getMatch()])
   const summoners =  promises[0];
   const matchs =  promises[1];
-
+  summoners[0].id = 100;
+  summoners[1].id = 200;
   summoners.forEach(summoner => {
     summoner.wins = 0;
     summoner.lose = 0;
@@ -70,9 +71,12 @@ async function countMatch(){
 
 function orderBy(a,b) {
   if(order == 'wins'){
-    if ((a.wins-a.lose) > (b.wins-b.lose) || ((a.wins - a.lose) > 0 &&  (a.wins - a.lose) == (b.wins - b.lose) &&  (a.kill) > (b.kill)))
+   let x = (a.wins - a.lose) == 0 ?-Infinity : a.wins - a.lose;
+   let y = (b.wins - b.lose) == 0 ?-Infinity: b.wins - b.lose;
+
+    if (x > y || x == y && a.kill > b.kill)
       return -1;
-    if ((a.wins-a.lose) < (b.wins-b.lose) || ((a.wins - a.lose) > 0 &&  (a.wins - a.lose) == (b.wins - b.lose) && (a.kill) < (b.kill)) )
+    if (x < y || x == y && a.kill < b.kill)
       return 1;
     return 0;
   }
