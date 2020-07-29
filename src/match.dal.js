@@ -23,7 +23,7 @@ exports.getMatch = async () => {
   const client = connect();
   try {
     const dataQuery = await client.query(
-      `select * from match order by create_at ASC`
+      `select * from match order by create_at DESC`
     );
 
     return camelcaseKeys(dataQuery.rows);

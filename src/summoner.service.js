@@ -61,11 +61,11 @@ async function countMatch(){
         summoner.assist += +summonerExist.assist;
       }
       else{
-        summoner.wins = 0;
-        summoner.lose = 0;
-        summoner.kill = 0;
-        summoner.death = 0;
-        summoner.assist = 0;
+        summoner.wins = summoner.wins ? summoner.wins + 0 : 0;
+        summoner.lose = summoner.lose ? summoner.lose + 0 : 0;
+        summoner.kill = summoner.kill ? summoner.kill + 0 : 0;
+        summoner.death = summoner.death ? summoner.death + 0 : 0;
+        summoner.assist = summoner.assist ? summoner.assist + 0 : 0;
       }
 
 
@@ -75,11 +75,21 @@ async function countMatch(){
 }
 
 function orderBy(a,b) {
-  if (a[order] > b[order])
-     return -1;
-  if (a[order] < b[order])
-    return 1;
-  return 0;
+  if(order == 'wins'){
+    if ((a.wins-a.lose) > (b.wins-b.lose) || ((a.wins - a.lose) == (b.wins - b.lose) && (a.kill) > (b.kill)))
+      return -1;
+    if ((a.wins-a.lose) < (b.wins-b.lose) || ((a.wins - a.lose) == (b.wins - b.lose) && (a.kill) < (b.kill)) )
+      return 1;
+    return 0;
+  }
+  else{
+    if (a[order] > b[order])
+      return -1;
+    if (a[order] < b[order])
+      return 1;
+    return 0;
+  }
+  
 }
 
 exports.createSummoner = async (summoner) => {
