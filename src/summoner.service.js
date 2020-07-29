@@ -45,30 +45,24 @@ async function countMatch(){
   const summoners =  promises[0];
   const matchs =  promises[1];
 
+  summoners.forEach(summoner => {
+    summoner.wins = 0;
+    summoner.lose = 0;
+    summoner.kill = 0;
+    summoner.death = 0;
+    summoner.assist = 0;
+  })
+
   for (const match of matchs) {
     for (const summoner of summoners) {
       const summonerExist = match.summoners.find(summonerMatch => summonerMatch.summonerId == summoner.id);
-      if(summonerExist){
-        summoner.wins = summoner.wins ? summoner.wins : 0;
-        summoner.lose = summoner.lose ? summoner.lose : 0;
-        summoner.kill = summoner.kill ? summoner.kill : 0;
-        summoner.death = summoner.death ? summoner.death : 0;
-        summoner.assist = summoner.assist ? summoner.assist : 0;
+      if(summonerExist){       
         summoner.wins += summonerExist.wins && summonerExist.wins == 'true'  ? 1 : 0;
         summoner.lose += summonerExist.wins && summonerExist.wins == 'true'  ? 0 : 1;
         summoner.kill += +summonerExist.kill;
         summoner.death += +summonerExist.death;
         summoner.assist += +summonerExist.assist;
       }
-      else{
-        summoner.wins = summoner.wins ? summoner.wins + 0 : 0;
-        summoner.lose = summoner.lose ? summoner.lose + 0 : 0;
-        summoner.kill = summoner.kill ? summoner.kill + 0 : 0;
-        summoner.death = summoner.death ? summoner.death + 0 : 0;
-        summoner.assist = summoner.assist ? summoner.assist + 0 : 0;
-      }
-
-
     }
   }
   return summoners;
