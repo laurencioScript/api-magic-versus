@@ -70,9 +70,9 @@ async function countMatch(){
 
 function orderBy(a,b) {
   if(order == 'wins'){
-    if ((a.wins-a.lose) > (b.wins-b.lose) || ((a.wins - a.lose) == (b.wins - b.lose) && (a.kill) > (b.kill)))
+    if ((a.wins-a.lose) > (b.wins-b.lose) || ((a.wins - a.lose) > 0 &&  (a.wins - a.lose) == (b.wins - b.lose) &&  (a.kill) > (b.kill)))
       return -1;
-    if ((a.wins-a.lose) < (b.wins-b.lose) || ((a.wins - a.lose) == (b.wins - b.lose) && (a.kill) < (b.kill)) )
+    if ((a.wins-a.lose) < (b.wins-b.lose) || ((a.wins - a.lose) > 0 &&  (a.wins - a.lose) == (b.wins - b.lose) && (a.kill) < (b.kill)) )
       return 1;
     return 0;
   }
