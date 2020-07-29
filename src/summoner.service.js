@@ -44,8 +44,7 @@ async function countMatch(){
   const promises = await Promise.all([dalSummoner.getSummoners(), serviceMatch.getMatch()])
   const summoners =  promises[0];
   const matchs =  promises[1];
-  summoners[0].id = 100;
-  summoners[1].id = 200;
+ 
   summoners.forEach(summoner => {
     summoner.wins = 0;
     summoner.lose = 0;
