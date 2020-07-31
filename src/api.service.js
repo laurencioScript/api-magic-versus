@@ -2,7 +2,7 @@ require('dotenv/config');
 const axios = require("axios");
 const url = "https://br1.api.riotgames.com/lol";
 
-const key = process.env.KEY ;
+const {key} = require('../api-key.json') ;
 
 // interface SummonerByName {
 //   id: any;

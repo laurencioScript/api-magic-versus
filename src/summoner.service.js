@@ -70,8 +70,8 @@ async function countMatch(){
 
 function orderBy(a,b) {
   if(order == 'wins'){
-   let x = a.wins == 0 && a.lose == 0 ?-Infinity : a.wins - a.lose;
-   let y = b.wins == 0 && b.lose == 0 ?-Infinity: b.wins - b.lose;
+   let x = a.wins == 0 && a.lose == 0 ?-Infinity : (a.wins + a.lose) + a.wins - a.lose;
+   let y = b.wins == 0 && b.lose == 0 ?-Infinity: (b.wins + b.lose) + b.wins - b.lose;
 
     if (x > y || x == y && a.kill > b.kill)
       return -1;

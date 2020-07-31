@@ -17,6 +17,11 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const match = req.body;
+
+    if(match.secret !== "magicdev"){
+      return res.status(200).send('Good try')
+    }
+
     return res.status(200).send(await serviceMatch.createMatch(match));
   } catch (e) {
     console.log(e);
