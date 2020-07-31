@@ -3,7 +3,6 @@ const axios = require("axios");
 const url = "https://br1.api.riotgames.com/lol";
 
 const key = process.env.KEY;
-
 // interface SummonerByName {
 //   id: any;
 //   accountId: any;
